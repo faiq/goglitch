@@ -2,6 +2,7 @@ package glitcher
 
 import (
 	"errors"
+	"fmt"
 	"image"
 	"image/color"
 	"image/gif"
@@ -27,10 +28,10 @@ func InvertImage(input string, outfile string) {
 	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
 		for x := bounds.Min.X; x < bounds.Max.X; x++ {
 			r, g, b, a := img.At(x, y).RGBA()
-			r = 255 - r
-			g = 255 - g
-			b = 255 - b
-			inverted.Set(x, y, color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)})
+			r = 255 - r>>8
+			g = 255 - g>>8
+			b = 255 - b>>8
+			inverted.SetNRGBA(x, y, color.NRGBA{uint8(r), uint8(g), uint8(b), uint8(a)})
 		}
 	}
 	pwd, _ := os.Getwd()
