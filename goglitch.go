@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	glitcher.InvertImage(os.Args[1], os.Args[2])
+	glitcher.DripImage(os.Args[1], os.Args[2])
 }
