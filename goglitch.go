@@ -4,15 +4,37 @@ import (
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/faiq/goglitch/glitcher"
-	"os"
 )
 
 func main() {
 	app := cli.NewApp()
 	app.Name = "goglitch"
-	app.Usage = "Create and back some awesome projects"
-	err := glitcher.HorizontalSort(os.Args[1], os.Args[2])
-	if err != nil {
-		fmt.Printf("%v \n", err)
+	app.Usage = "A CLI to glitch your images. Most commands are "
+	app.Commands = []cli.Command{
+		{
+			Name:    "horrizontal-sort",
+			Aliases: []string{"h-s"},
+			Usage:   "Horrizontal sort the values of all the pixels in every row.",
+			Action: func(c *cli.Context) {
+				args := c.Args()
+				err := glitcher.HorizontalSort(args[0], args[1])
+				if err != nil {
+					fmt.Printf("%v \n", err)
+				}
+			},
+		},
+		{
+			Name:    "vertical-sort",
+			Aliases: []string{"v-s"},
+			Usage:   "Vertically sort the values of all the pixels in every row.",
+			Action: func(c *cli.Context) {
+				args := c.Args()
+				err := glitcher.VerticalSort(args[0], args[1])
+				if err != nil {
+					fmt.Printf("%v \n", err)
+				}
+			},
+		},
 	}
+	app.RunAndExitOnError()
 }
