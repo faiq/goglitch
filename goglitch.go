@@ -35,6 +35,15 @@ func main() {
 				}
 			},
 		},
+		{
+			Name:    "invert",
+			Aliases: []string{"inv"},
+			Usage:   "Invert your picture",
+			Action: func(c *cli.Context) {
+				args := c.Args()
+				glitcher.InvertImage(args[0], args[1])
+			},
+		},
 	}
 	app.RunAndExitOnError()
 }
