@@ -1,7 +1,6 @@
 package glitcher
 
 import (
-	"github.com/faiq/goglitch/helpers"
 	"image"
 	"image/color"
 	_ "image/gif"
@@ -63,7 +62,7 @@ func VerticalSort(input string, outfile string) error {
 			sortedImg.SetNRGBA(x, y, color.NRGBA{uint8(r), uint8(g), uint8(b), uint8(255)})
 		}
 	}
-	err = helpers.SaveImage(sortedImg, outfile)
+	//err = helpers.SaveImage(sortedImg, outfile)
 	if err != nil {
 		return err
 	}

@@ -1,22 +1,18 @@
 package glitcher
 
 import (
-	"github.com/faiq/goglitch/helpers"
 	"image"
 	"image/color"
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
-	"os"
+	"io"
 	"sort"
+
+	"github.com/faiq/goglitch/helpers"
 )
 
-func HorizontalSort(input string, outfile string) error {
-	reader, err := os.Open(input)
-	if err != nil {
-		return err
-	}
-	defer reader.Close()
+func HorizontalSort(reader io.Reader, dest io.Writer) error {
 	img, _, err := image.Decode(reader)
 	if err != nil {
 		return err
@@ -41,7 +37,7 @@ func HorizontalSort(input string, outfile string) error {
 			dripped.SetNRGBA(x, y, color.NRGBA{uint8(r), uint8(g), uint8(b), uint8(255)})
 		}
 	}
-	err = helpers.SaveImage(dripped, outfile)
+	err = helpers.WriteImage(dripped, "png", dest)
 	if err != nil {
 		return err
 	}

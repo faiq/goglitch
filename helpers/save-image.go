@@ -6,39 +6,27 @@ import (
 	"image/gif"
 	"image/jpeg"
 	"image/png"
-	"os"
-	"path"
-	"strings"
+	"io"
 )
 
-func SaveImage(img image.Image, outfile string) error {
-	pwd, _ := os.Getwd()
-	fileName := path.Join(pwd, outfile)
-	fp, err := os.Create(fileName)
-	if err != nil {
-		return err
-	}
-	idx := strings.LastIndex(fileName, ".")
-	if idx == -1 {
-		return errors.New("you dont have a supported output file")
-	}
-	ext := fileName[idx+1:]
+func WriteImage(img image.Image, ext string, w io.Writer) error {
+	var err error
 	if ext == "png" {
-		err = png.Encode(fp, img)
+		err = png.Encode(w, img)
 		if err != nil {
 			return err
 		}
 	} else if ext == "jpeg" || ext == "jpg" {
 		var opt jpeg.Options
 		opt.Quality = 100
-		err = jpeg.Encode(fp, img, &opt)
+		err = jpeg.Encode(w, img, &opt)
 		if err != nil {
 			return err
 		}
 	} else if ext == "gif" {
 		var opt gif.Options
 		opt.NumColors = 256
-		err = gif.Encode(fp, img, &opt)
+		err = gif.Encode(w, img, &opt)
 	} else {
 		return errors.New("you dont have a supported output file")
 	}
