@@ -1,0 +1,28 @@
+build:
+  base-path: /gopath/src/github.com/faiq/goglitch
+  box:
+    id: tcnksm/gox:1.5.1
+  steps:
+    - script:
+        code: |
+            gox \
+              -os="linux" \
+              -arch="amd64" \
+              -output "$WERCKER_OUTPUT_DIR/{{.Dir}}"
+             cp index.html $WERCKER_OUTPUT_DIR
+
+deploy:
+  box:
+    id: busybox
+    cmd: /bin/sh
+  steps:
+    - script:
+      code: |
+        cp /pipeline/source/goglitch  /
+        cp /pipeline/source/index.html  /
+        rm -rf /pipeline
+    - internal/docker-push:
+        repository: quay.io/faiq/goglitch
+        username: $USERNAME
+        password: $PASSWORD
+        cmd: goglitch
