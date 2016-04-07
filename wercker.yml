@@ -23,6 +23,8 @@ deploy:
         rm -rf /pipeline
     - internal/docker-push:
         repository: quay.io/faiq/goglitch
+        registry: quay.io
         username: $USERNAME
         password: $PASSWORD
         cmd: goglitch
+        ports: 3000
